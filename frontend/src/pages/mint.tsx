@@ -1,15 +1,70 @@
-import React from "react";
+// frontend/src/pages/mint.tsx
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import MintForm from "../components/MintForm";
+import WalletConnectButton from "../components/WalletConnectButton";
+import { motion } from "framer-motion";
 
 export default function MintPage() {
   const router = useRouter();
   const { cid, score, sig } = router.query;
 
+  useEffect(() => {
+    // Add background particles on mount
+    const particles = [];
+    const particleCount = 15;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.className = "absolute rounded-full bg-white opacity-10";
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.width = `${Math.random() * 10 + 2}px`;
+      particle.style.height = `${Math.random() * 10 + 2}px`;
+      document.querySelector(".particle-container")?.appendChild(particle);
+      particles.push(particle);
+    }
+    
+    return () => {
+      particles.forEach(p => p.remove());
+    };
+  }, []);
+
   if (!cid) {
     return (
-      <div className="container">
-        <div className="card">No CID provided. Use the upload page first.</div>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white">
+        <div className="fixed inset-0 overflow-hidden z-0 particle-container"></div>
+        
+        <div className="relative z-10 container mx-auto px-4 py-12 max-w-4xl">
+          <Header />
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gray-800/30 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-2xl text-center py-16"
+          >
+            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-rose-500 to-pink-600 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold mb-4">Artwork Data Missing</h2>
+            <p className="text-indigo-200 mb-6 max-w-md mx-auto">
+              We couldn't find the artwork data needed to mint an NFT. 
+              Please start from the upload page to authenticate your artwork first.
+            </p>
+            <button 
+              className="btn bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+              onClick={() => router.push("/")}
+            >
+              Go to Upload Page
+            </button>
+          </motion.div>
+          
+          <div className="mt-16 text-center text-indigo-300">
+            <p>© {new Date().getFullYear()} ArtifyAI. Revolutionizing art authentication.</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -20,13 +75,157 @@ export default function MintPage() {
   };
 
   return (
-    <div className="container">
-      <h2 className="text-xl mb-4">Mint page</h2>
-      <div className="card">
-        <div className="mb-2">CID: <span className="font-mono break-all">{cid}</span></div>
-        <div className="mb-4">Score: {report.score}</div>
-        <MintForm cid={String(cid)} report={report} onMintSuccess={(tx) => alert("Minted: " + tx)} />
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white">
+      <div className="fixed inset-0 overflow-hidden z-0 particle-container"></div>
+      
+      <div className="relative z-10 container mx-auto px-4 py-12 max-w-4xl">
+        <Header />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Mint Your Authenticated Artwork
+          </h2>
+          <p className="text-xl text-indigo-200 max-w-2xl mx-auto">
+            Finalize your NFT creation with blockchain verification of your artwork's authenticity
+          </p>
+        </motion.div>
+        
+        <div className="bg-gray-800/30 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Artwork Details</h3>
+              
+              <div className="space-y-6">
+                <div className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                  <h4 className="text-lg font-semibold mb-3">IPFS Content Identifier</h4>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                      </svg>
+                    </div>
+                    <div className="font-mono text-sm break-all">
+                      {cid}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                  <h4 className="text-lg font-semibold mb-3">Authenticity Score</h4>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-3xl font-bold">{report.score}/100</div>
+                      <div className="text-indigo-300">
+                        {getConfidenceLevel(report.score)} Confidence
+                      </div>
+                    </div>
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-teal-400 flex items-center justify-center">
+                      <span className="text-xl font-bold">{report.score}</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 w-full bg-gray-700/50 rounded-full h-2.5">
+                    <div 
+                      className="bg-gradient-to-r from-green-500 to-teal-400 h-2.5 rounded-full" 
+                      style={{ width: `${report.score}%` }}
+                    ></div>
+                  </div>
+                </div>
+                
+                {report.signature && (
+                  <div className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                    <h4 className="text-lg font-semibold mb-3">Digital Signature</h4>
+                    <div className="font-mono text-xs bg-gray-900/50 p-4 rounded-lg overflow-x-auto">
+                      {report.signature}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Mint NFT</h3>
+              <MintForm 
+                cid={String(cid)} 
+                report={report} 
+                onMintSuccess={(tx) => {
+                  alert(`Successfully minted NFT! Transaction: ${tx}`);
+                  router.push("/");
+                }} 
+              />
+              
+              <div className="mt-8 bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                <h4 className="text-lg font-semibold mb-4">Why Mint on ArtifyAI?</h4>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-3 mt-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold">Immutable Provenance</div>
+                      <p className="text-sm text-indigo-300">Permanent record of authenticity on the blockchain</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-3 mt-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold">Zero Gas Fees</div>
+                      <p className="text-sm text-indigo-300">We cover all transaction costs for your mint</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center mr-3 mt-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="font-semibold">Royalty Program</div>
+                      <p className="text-sm text-indigo-300">Earn 10% on secondary market sales</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-16 text-center text-indigo-300">
+          <p>© {new Date().getFullYear()} ArtifyAI. Revolutionizing art authentication.</p>
+        </div>
       </div>
     </div>
   );
 }
+
+const Header = () => (
+  <div className="flex justify-between items-center mb-16">
+    <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href = "/"}>
+      <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+        </svg>
+      </div>
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
+        ArtifyAI
+      </h1>
+    </div>
+    <WalletConnectButton />
+  </div>
+);
+
+const getConfidenceLevel = (score: number) => {
+  if (score >= 90) return "Exceptional";
+  if (score >= 75) return "High";
+  if (score >= 50) return "Moderate";
+  return "Low";
+};
