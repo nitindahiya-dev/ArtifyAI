@@ -1,0 +1,124 @@
+artifyai/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── .vscode/
+│   └── settings.json
+├── README.md
+├── LICENSE
+├── .gitignore
+├── Makefile
+├── package.json                 # repo-level helper scripts (optional)
+├── docker-compose.yml           # local dev composition for infra & services
+├── infra/
+│   ├── docker/
+│   │   └── Dockerfile.backend
+│   ├── docker-compose.yml      # alternative to root compose, dev infra (postgres, redis, minio)
+│   ├── postgres/
+│   │   └── init.sql
+│   └── traefik/                # optional: local reverse proxy (dev)
+│       └── ...
+├── contracts/
+│   ├── hardhat.config.js
+│   ├── package.json
+│   ├── scripts/
+│   │   ├── deploy.js
+│   │   └── verify.js
+│   ├── test/
+│   │   └── ArtifyAi.test.js
+│   └── contracts/
+│       └── ArtAuthenticator.sol
+├── frontend/
+│   ├── README.md
+│   ├── package.json
+│   ├── next.config.js
+│   ├── postcss.config.cjs
+│   ├── tailwind.config.cjs
+│   ├── public/
+│   │   └── favicon.ico
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── _app.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── mint.tsx
+│   │   │   └── api/
+│   │   │       └── health.ts
+│   │   ├── components/
+│   │   │   ├── UploadCard.tsx
+│   │   │   ├── WalletConnectButton.tsx
+│   │   │   ├── ReportView.tsx
+│   │   │   └── MintForm.tsx
+│   │   ├── lib/
+│   │   │   ├── ethers.ts           # contract ABI + provider helpers
+│   │   │   └── ipfs.ts             # optional IPFS client helpers for frontend
+│   │   ├── styles/
+│   │   │   └── globals.css
+│   │   └── types/
+│           └── index.d.ts
+├── backend/
+│   ├── README.md
+│   ├── pyproject.toml or requirements.txt
+│   ├── alembic/                    # migrations (if using SQLAlchemy/ Alembic)
+│   │   └── versions/
+│   ├── app/
+│   │   ├── main.py                 # FastAPI app startpoint
+│   │   ├── core/
+│   │   │   ├── config.py          # env loader and pydantic settings
+│   │   │   └── security.py
+│   │   ├── api/
+│   │   │   ├── v1/
+│   │   │   │   ├── endpoints/
+│   │   │   │   │   ├── infer.py
+│   │   │   │   │   ├── mint.py
+│   │   │   │   │   └── attestations.py
+│   │   │   │   └── deps.py
+│   │   ├── services/
+│   │   │   ├── inference_service.py
+│   │   │   ├── ipfs_service.py
+│   │   │   ├── signer_service.py
+│   │   │   └── contract_service.py
+│   │   ├── db/
+│   │   │   ├── base.py
+│   │   │   ├── models.py
+│   │   │   ├── crud.py
+│   │   │   └── session.py
+│   │   ├── ml/
+│   │   │   └── loader.py          # model load/unload helpers for FastAPI
+│   │   ├── schemas/
+│   │   │   └── pydantic_models.py
+│   │   ├── tasks/                 # background tasks, Celery/ RQ integration optional
+│   │   └── utils/
+│   │       └── images.py
+│   ├── tests/
+│   │   └── test_infer.py
+│   └── Dockerfile
+├── ml/
+│   ├── README.md
+│   ├── data/
+│   │   ├── raw/
+│   │   └── processed/
+│   ├── experiments/
+│   │   └── exp001/
+│   │       ├── config.yaml
+│   │       └── run.ipynb
+│   ├── src/
+│   │   ├── train.py
+│   │   ├── evaluate.py
+│   │   ├── dataset.py
+│   │   ├── model.py
+│   │   └── utils.py
+│   ├── models/
+│   │   └── checkpoint.pt
+│   └── requirements.txt
+├── scripts/
+│   ├── setup-dev.sh
+│   └── seed_db.py
+├── docs/
+│   ├── architecture.md
+│   ├── api-spec.yaml         # OpenAPI / Swagger or Postman collection
+│   └── security.md
+└── tests/
+    ├── e2e/
+    │   └── e2e_test_flow.js
+    └── integration/
+        └── contract_integration.test.js

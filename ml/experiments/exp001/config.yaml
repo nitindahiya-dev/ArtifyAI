@@ -1,0 +1,5 @@
+batch_size: 32
+learning_rate: 0.001
+epochs: 5
+image_size: 128
+num_classes: 2
