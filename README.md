@@ -1,4 +1,4 @@
-# ArtifyAI
+# ArtifyAI [Under Construction]
 
 ArtifyAI is a decentralized platform for creating, authenticating, and minting AI-generated artwork as NFTs. It integrates a React-based frontend with a FastAPI backend, smart contracts for blockchain interactions, and a machine learning pipeline for AI art generation.
 
