@@ -12,16 +12,11 @@ export default function HomePage() {
   const [cid, setCid] = useState<string | null>(null);
   const [report, setReport] = useState<AIReport | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   async function handleFileSelect(f: File) {
     setFile(f);
     setCid(null);
     setReport(null);
-    
-    // Trigger background animation
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 2000);
     
     try {
       setLoading(true);
@@ -42,50 +37,19 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden z-0">
-        {isAnimating && (
-          <>
-            <motion.div 
-              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-teal-400 to-cyan-300 opacity-20 blur-3xl"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1.5, opacity: 0 }}
-              transition={{ duration: 2 }}
-            />
-            <motion.div 
-              className="absolute top-1/2 right-1/3 w-48 h-48 rounded-full bg-gradient-to-r from-pink-400 to-rose-300 opacity-20 blur-3xl"
-              initial={{ scale: 0 }}
-              animate={{ scale: 2, opacity: 0 }}
-              transition={{ duration: 2, delay: 0.2 }}
-            />
-          </>
-        )}
-        
-        {/* Static background particles */}
-        {[...Array(15)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute rounded-full bg-white opacity-10"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              width: `${Math.random() * 10 + 2}px`,
-              height: `${Math.random() * 10 + 2}px`,
-            }}
-          />
-        ))}
+    <div className="min-h-screen bg-black text-white">
+      {/* Subtle grid background */}
+      <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
+        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-12 max-w-4xl">
         <div className="flex justify-between items-center mb-16">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-white text-black flex items-center justify-center border border-gray-800">
               <PaletteIcon />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
-              ArtifyAI
-            </h1>
+            <h1 className="text-3xl font-bold">ArtifyAI</h1>
           </div>
           <WalletConnectButton />
         </div>
@@ -98,7 +62,7 @@ export default function HomePage() {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Transform Art into Verifiable NFTs
           </h2>
-          <p className="text-xl text-indigo-200 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Upload your artwork, get an AI authenticity report, and mint it as a 
             blockchain-verified NFT with built-in provenance tracking.
           </p>
@@ -122,7 +86,7 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="bg-gray-800/30 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-2xl">
+        <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800 shadow-2xl">
           <UploadCard onSelect={handleFileSelect} disabled={loading} />
 
           {loading && (
@@ -131,9 +95,9 @@ export default function HomePage() {
               animate={{ opacity: 1 }}
               className="mt-8 flex flex-col items-center py-12"
             >
-              <div className="w-16 h-16 border-t-4 border-cyan-400 rounded-full animate-spin mb-6"></div>
+              <div className="w-16 h-16 border-t-2 border-white rounded-full animate-spin mb-6"></div>
               <h3 className="text-xl font-semibold mb-2">Analyzing Artwork</h3>
-              <p className="text-indigo-200">Our AI is examining your artwork's unique characteristics...</p>
+              <p className="text-gray-400">Our AI is examining your artwork's unique characteristics...</p>
             </motion.div>
           )}
 
@@ -150,7 +114,7 @@ export default function HomePage() {
           )}
         </div>
 
-        <div className="mt-16 text-center text-indigo-300">
+        <div className="mt-16 text-center text-gray-500">
           <p>© {new Date().getFullYear()} ArtifyAI. Revolutionizing art authentication.</p>
         </div>
       </div>
@@ -161,13 +125,13 @@ export default function HomePage() {
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
   <motion.div 
     whileHover={{ y: -5 }}
-    className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-white/10"
+    className="bg-gray-900 p-6 rounded-xl border border-gray-800"
   >
-    <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center mb-4">
+    <div className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center mb-4 border border-gray-800">
       {icon}
     </div>
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="text-indigo-200">{description}</p>
+    <p className="text-gray-400">{description}</p>
   </motion.div>
 );
 
