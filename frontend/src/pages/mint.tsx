@@ -2,7 +2,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 import MintForm from "../components/MintForm";
-import WalletConnectButton from "../components/WalletConnectButton";
 import { motion } from "framer-motion";
 
 export default function MintPage() {
@@ -11,14 +10,12 @@ export default function MintPage() {
 
   if (!cid) {
     return (
-      <div className="min-h-screen bg-black text-white">
-        <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
+      <div className="mt-36 bg-black text-white">
+        {/* <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
           <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
-        </div>
+        </div> */}
         
-        <div className="relative z-10 container mx-auto px-4 py-12 max-w-4xl">
-          <Header />
-          
+        <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -31,7 +28,7 @@ export default function MintPage() {
             </div>
             <h2 className="text-2xl font-bold mb-4">Artwork Data Missing</h2>
             <p className="text-gray-400 mb-6 max-w-md mx-auto">
-              We couldn't find the artwork data needed to mint an NFT. 
+              We {`couldn't`} find the artwork data needed to mint an NFT. 
               Please start from the upload page to authenticate your artwork first.
             </p>
             <button 
@@ -41,10 +38,6 @@ export default function MintPage() {
               Go to Upload Page
             </button>
           </motion.div>
-          
-          <div className="mt-16 text-center text-gray-500">
-            <p>© {new Date().getFullYear()} ArtifyAI. Revolutionizing art authentication.</p>
-          </div>
         </div>
       </div>
     );
@@ -57,12 +50,11 @@ export default function MintPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
+      {/* <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
-      </div>
+      </div> */}
       
-      <div className="relative z-10 container mx-auto px-4 py-12 max-w-4xl">
-        <Header />
+      <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -73,7 +65,7 @@ export default function MintPage() {
             Mint Your Authenticated Artwork
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Finalize your NFT creation with blockchain verification of your artwork's authenticity
+            Finalize your NFT creation with blockchain verification of your {`artwork's`} authenticity
           </p>
         </motion.div>
         
@@ -181,28 +173,13 @@ export default function MintPage() {
             </div>
           </div>
         </div>
-        
-        <div className="mt-16 text-center text-gray-500">
-          <p>© {new Date().getFullYear()} ArtifyAI. Revolutionizing art authentication.</p>
-        </div>
+      
       </div>
     </div>
   );
 }
 
-const Header = () => (
-  <div className="flex justify-between items-center mb-16">
-    <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href = "/"}>
-      <div className="w-10 h-10 rounded-lg bg-white text-black flex items-center justify-center border border-gray-800">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-        </svg>
-      </div>
-      <h1 className="text-3xl font-bold">ArtifyAI</h1>
-    </div>
-    <WalletConnectButton />
-  </div>
-);
+
 
 const getConfidenceLevel = (score: number) => {
   if (score >= 90) return "Exceptional";

@@ -37,13 +37,21 @@ artifyai/
 │   ├── public/
 │   │   └── favicon.ico
 │   ├── src/
+│   ├── layout/
+│   │   └── Layout.tsx
+│   │   └── Header.tsx
+│   │   └── Footer.tsx
 │   │   ├── pages/
 │   │   │   ├── _app.tsx
 │   │   │   ├── index.tsx
+│   │   │   ├── cookie-policy.tsx
+│   │   │   ├── privacy-policy.tsx
+│   │   │   ├── terms-of-service.tsx
 │   │   │   ├── mint.tsx
 │   │   │   └── api/
 │   │   │       └── health.ts
 │   │   ├── components/
+│   │   │   ├── FeatureCard.tsx
 │   │   │   ├── UploadCard.tsx
 │   │   │   ├── WalletConnectButton.tsx
 │   │   │   ├── ReportView.tsx
@@ -53,6 +61,8 @@ artifyai/
 │   │   │   └── ipfs.ts             # optional IPFS client helpers for frontend
 │   │   ├── styles/
 │   │   │   └── globals.css
+│   │   ├── svg/
+│   │   │   └── svgs.tsx
 │   │   └── types/
 │           └── index.d.ts
 ├── backend/
