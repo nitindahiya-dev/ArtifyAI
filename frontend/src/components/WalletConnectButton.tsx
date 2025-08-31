@@ -15,13 +15,29 @@ export default function WalletConnectButton({ onConnect }: Props) {
   const [isInstalled, setIsInstalled] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  useEffect(() => {
-    setIsInstalled(hasMetaMask());
-    // Check if wallet is already connected
-    if (window.ethereum?.selectedAddress) {
-      setAddress(window.ethereum.selectedAddress);
+useEffect(() => {
+  setIsInstalled(hasMetaMask());
+  if (window.ethereum?.selectedAddress) {
+    setAddress(window.ethereum.selectedAddress);
+  }
+
+  // Listen for MetaMask initialization
+  if (window.ethereum) {
+    window.ethereum.on("accountsChanged", (accounts: string[]) => {
+      setAddress(accounts[0] || null);
+    });
+  }
+
+  // Poll for window.ethereum availability
+  const interval = setInterval(() => {
+    if (hasMetaMask()) {
+      setIsInstalled(true);
+      clearInterval(interval);
     }
-  }, []);
+  }, 100);
+
+  return () => clearInterval(interval);
+}, []);
 
   async function handleConnect() {
     try {
