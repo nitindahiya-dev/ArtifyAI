@@ -32,7 +32,7 @@ ArtifyAI is a decentralized platform for creating, authenticating, and minting A
 This project combines **Machine Learning (ML)**, **Web Backend (FastAPI)**, **Blockchain (Smart Contracts)**, and **Decentralized Storage (IPFS)** into a single system for authenticating and minting AI-generated art.
 
 
-<image width=100% src="./architecture_flow.png" />
+<image width=100% src="./architecture_flow.webp" />
 
 
 ---
@@ -104,9 +104,7 @@ The backend is built with **FastAPI** and coordinates ML, IPFS, and blockchain.
   - `ethers.ts` → Interact with contracts.
   - `ipfs.ts` → Fetch/store IPFS files.
 
-**Flow:**
+## Flow
 - User → uploads art → backend API.
 - Backend → runs ML → uploads results to IPFS → stores CID on-chain.
 - Frontend → fetches contract state + IPFS data → displays authenticity + minted NFT.
-
----
