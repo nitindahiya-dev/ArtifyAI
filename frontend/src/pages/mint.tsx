@@ -10,11 +10,7 @@ export default function MintPage() {
 
   if (!cid) {
     return (
-      <div className="mt-36 text-white">
-        {/* <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
-          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
-        </div> */}
-        
+      <div className="mt-36 text-white">        
         <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,11 +45,7 @@ export default function MintPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
-      </div> */}
-      
+    <div className="min-h-screen bg-black text-white">      
       <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
         
         <motion.div

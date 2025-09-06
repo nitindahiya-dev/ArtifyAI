@@ -1,11 +1,12 @@
 // pages/privacy-policy.tsx
 import React from 'react'
 import { motion } from 'framer-motion'
+import PolicySection from '../components/PolicySection'
 
 const PrivacyPolicy = () => {
   return (
     <div className="text-white">
-      <main className="mx-auto md:px-4 pt-12 max-w-7xl md:mt-16">
+      <main className="container mx-auto md:px-4 pt-12 max-w-4xl md:mt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -18,23 +19,21 @@ const PrivacyPolicy = () => {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
-              <p className="text-gray-300 mb-4">
-                Welcome to ArtifyAI. We are committed to protecting your personal information and your right to privacy. 
+            <PolicySection title="1. Introduction">
+              <p className="mb-4">
+                Welcome to ArtifyAI. We are committed to protecting your personal information and your right to privacy.
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.
               </p>
-              <p className="text-gray-300">
-                If you have any questions or concerns about this privacy notice, or our practices with regards to your personal 
+              <p>
+                If you have any questions or concerns about this privacy notice, or our practices with regards to your personal
                 information, please contact us at privacy@artifyai.com.
               </p>
-            </section>
+            </PolicySection>
 
-            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
+            <PolicySection title="2. Information We Collect">
               <h3 className="text-xl font-medium mb-2">Personal Information</h3>
-              <p className="text-gray-300 mb-4">
-                We collect personal information that you voluntarily provide to us when you register on the service, 
+              <p className="mb-4">
+                We collect personal information that you voluntarily provide to us when you register on the service,
                 express an interest in obtaining information about us or our products and services, or otherwise when you contact us.
               </p>
               <ul className="list-disc list-inside text-gray-300 mb-4 space-y-2">
@@ -45,15 +44,14 @@ const PrivacyPolicy = () => {
               </ul>
 
               <h3 className="text-xl font-medium mb-2">Automatically Collected Information</h3>
-              <p className="text-gray-300">
-                We automatically collect certain information when you visit, use, or navigate the service. This information does not 
+              <p>
+                We automatically collect certain information when you visit, use, or navigate the service. This information does not
                 reveal your specific identity but may include device and usage information.
               </p>
-            </section>
+            </PolicySection>
 
-            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
-              <p className="text-gray-300 mb-4">
+            <PolicySection title="3. How We Use Your Information">
+              <p className="mb-4">
                 We use personal information collected via our service for a variety of business purposes described below:
               </p>
               <ul className="list-disc list-inside text-gray-300 space-y-2">
@@ -64,19 +62,17 @@ const PrivacyPolicy = () => {
                 <li>To communicate with you about updates or security alerts</li>
                 <li>To enforce our terms, conditions, and policies</li>
               </ul>
-            </section>
+            </PolicySection>
 
-            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">4. Data Security</h2>
-              <p className="text-gray-300">
-                We have implemented appropriate technical and organizational security measures designed to protect the security of any 
+            <PolicySection title="4. Data Security">
+              <p>
+                We have implemented appropriate technical and organizational security measures designed to protect the security of any
                 personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure.
               </p>
-            </section>
+            </PolicySection>
 
-            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">5. Your Privacy Rights</h2>
-              <p className="text-gray-300 mb-4">
+            <PolicySection title="5. Your Privacy Rights">
+              <p className="mb-4">
                 Depending on your location, you may have the following rights regarding your personal information:
               </p>
               <ul className="list-disc list-inside text-gray-300 space-y-2">
@@ -85,20 +81,19 @@ const PrivacyPolicy = () => {
                 <li>The right to request deletion of your personal information</li>
                 <li>The right to withdraw your consent at any time where we relied on your consent to process your personal information</li>
               </ul>
-            </section>
+            </PolicySection>
 
-            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
-              <h2 className="text-2xl font-semibold mb-4">6. Contact Us</h2>
-              <p className="text-gray-300">
+            <PolicySection title="6. Contact Us">
+              <p>
                 If you have questions or comments about this policy, you may email us at privacy@artifyai.com or by post to:
               </p>
-              <p className="text-gray-300 mt-2">
+              <p className="mt-2">
                 ArtifyAI Inc.<br />
                 123 Blockchain Avenue<br />
                 San Francisco, CA 94103<br />
                 United States
               </p>
-            </section>
+            </PolicySection>
           </div>
         </motion.div>
       </main>

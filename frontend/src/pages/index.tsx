@@ -43,11 +43,6 @@ export default function HomePage() {
 
   return (
     <div className="text-white mt-36">
-      {/* Subtle grid background
-      <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
-      </div> */}
-
       <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
