@@ -42,7 +42,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="bg-black text-white mt-36">
+    <div className="text-white mt-36">
       {/* Subtle grid background
       <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>

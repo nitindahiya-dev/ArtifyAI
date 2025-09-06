@@ -5,8 +5,7 @@ import { motion } from 'framer-motion'
 const PrivacyPolicy = () => {
   return (
     <div className="text-white">
-      
-      <main className="container mx-auto px-4 pt-12 max-w-4xl md:mt-16">
+      <main className="mx-auto md:px-4 pt-12 max-w-7xl md:mt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -19,7 +18,7 @@ const PrivacyPolicy = () => {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
               <p className="text-gray-300 mb-4">
                 Welcome to ArtifyAI. We are committed to protecting your personal information and your right to privacy. 
@@ -31,7 +30,7 @@ const PrivacyPolicy = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
               <h3 className="text-xl font-medium mb-2">Personal Information</h3>
               <p className="text-gray-300 mb-4">
@@ -52,7 +51,7 @@ const PrivacyPolicy = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
               <p className="text-gray-300 mb-4">
                 We use personal information collected via our service for a variety of business purposes described below:
@@ -67,7 +66,7 @@ const PrivacyPolicy = () => {
               </ul>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">4. Data Security</h2>
               <p className="text-gray-300">
                 We have implemented appropriate technical and organizational security measures designed to protect the security of any 
@@ -75,7 +74,7 @@ const PrivacyPolicy = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">5. Your Privacy Rights</h2>
               <p className="text-gray-300 mb-4">
                 Depending on your location, you may have the following rights regarding your personal information:
@@ -88,7 +87,7 @@ const PrivacyPolicy = () => {
               </ul>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">6. Contact Us</h2>
               <p className="text-gray-300">
                 If you have questions or comments about this policy, you may email us at privacy@artifyai.com or by post to:
@@ -103,7 +102,6 @@ const PrivacyPolicy = () => {
           </div>
         </motion.div>
       </main>
-
     </div>
   )
 }

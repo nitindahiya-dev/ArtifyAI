@@ -6,7 +6,7 @@ const TermsOfService = () => {
   return (
     <div className="text-white">
       
-      <main className="container mx-auto px-4 pt-12 max-w-4xl md:mt-16">
+      <main className="mx-auto md:px-4 pt-12 max-w-7xl md:mt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -19,7 +19,7 @@ const TermsOfService = () => {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">1. Agreement to Terms</h2>
               <p className="text-gray-300">
                 By accessing or using {"ArtifyAI's"} services, you agree to be bound by these Terms of Service. 
@@ -27,7 +27,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">2. Intellectual Property Rights</h2>
               <p className="text-gray-300 mb-4">
                 The Service and its original content, features, and functionality are and will remain the exclusive property 
@@ -39,7 +39,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">3. User Representations</h2>
               <p className="text-gray-300 mb-4">
                 By using the Service, you represent and warrant that:
@@ -53,7 +53,7 @@ const TermsOfService = () => {
               </ul>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">4. Prohibited Activities</h2>
               <p className="text-gray-300 mb-4">
                 You may not access or use the Service for any purpose other than that for which we make the Service available. 
@@ -71,7 +71,7 @@ const TermsOfService = () => {
               </ul>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">5. Service Fees</h2>
               <p className="text-gray-300 mb-4">
                 ArtifyAI may charge fees for certain services, such as minting NFTs. All fees will be clearly displayed 
@@ -83,7 +83,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">6. Limitation of Liability</h2>
               <p className="text-gray-300">
                 To the fullest extent permitted by law, in no event will ArtifyAI, its affiliates, or their licensors, service providers, 
@@ -92,7 +92,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">7. Governing Law</h2>
               <p className="text-gray-300">
                 These Terms shall be governed by and defined in accordance with the laws of the State of California. 
@@ -100,7 +100,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">8. Changes to Terms</h2>
               <p className="text-gray-300">
                 We reserve the right to make changes to these Terms of Service at any time. We will alert you about any changes 
@@ -109,7 +109,7 @@ const TermsOfService = () => {
               </p>
             </section>
 
-            <section>
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">9. Contact Information</h2>
               <p className="text-gray-300">
                 For any questions or concerns regarding the Terms of Service, you may contact us using the following details:

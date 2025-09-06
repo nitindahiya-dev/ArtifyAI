@@ -6,8 +6,7 @@ import Link from 'next/link'
 const CookiePolicy = () => {
   return (
     <div className="text-white">
-      
-      <main className="container mx-auto px-4 pt-12 max-w-4xl md:mt-16">
+      <main className="mx-auto md:px-4 pt-12 max-w-7xl md:mt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -20,7 +19,7 @@ const CookiePolicy = () => {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">1. What Are Cookies</h2>
               <p className="text-gray-300">
                 As is common practice with almost all professional websites, this site uses cookies, which are tiny files 
@@ -29,7 +28,7 @@ const CookiePolicy = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">2. How We Use Cookies</h2>
               <p className="text-gray-300 mb-4">
                 We use cookies for a variety of reasons detailed below. Unfortunately, in most cases, there are no industry 
@@ -40,7 +39,7 @@ const CookiePolicy = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">3. Types of Cookies We Use</h2>
               
               <h3 className="text-xl font-medium mb-2">Essential Cookies</h3>
@@ -60,7 +59,7 @@ const CookiePolicy = () => {
               </p>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">4. Third-Party Cookies</h2>
               <p className="text-gray-300 mb-4">
                 In some special cases, we also use cookies provided by trusted third parties. The following section details which third-party cookies you might encounter through this site.
@@ -72,7 +71,7 @@ const CookiePolicy = () => {
               </ul>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">5. Disabling Cookies</h2>
               <p className="text-gray-300 mb-4">
                 You can prevent the setting of cookies by adjusting the settings on your browser. Be aware that disabling cookies will affect the functionality of this and many other websites that you visit.
@@ -81,15 +80,15 @@ const CookiePolicy = () => {
                 You can learn how to manage cookies in your browser by following the browser-specific instructions:
               </p>
               <ul className="list-disc list-inside text-gray-300 space-y-2 mt-2">
-                <li><Link target='_blank' href={"https://support.google.com/chrome/answer/95647"} className="text-blue-400 hover:underline">Chrome</Link></li>
-                <li><Link target='_blank' href={"https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences"} className="text-blue-400 hover:underline">Firefox</Link></li>
-                <li><Link target='_blank' href={"https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies"} className="text-blue-400 hover:underline">Internet Explorer</Link></li>
-                <li><Link target='_blank' href={"https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac"} className="text-blue-400 hover:underline">Safari</Link></li>
-                <li><Link target='_blank' href={"https://support.microsoft.com/en-gb/help/4027947/windows-delete-cookies"} className="text-blue-400 hover:underline">Edge</Link></li>
+                <li><Link target='_blank' href={"https://support.google.com/chrome/answer/95647"} className="text-gray-300 hover:underline">Chrome</Link></li>
+                <li><Link target='_blank' href={"https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences"} className="text-gray-300 hover:underline">Firefox</Link></li>
+                <li><Link target='_blank' href={"https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies"} className="text-gray-300 hover:underline">Internet Explorer</Link></li>
+                <li><Link target='_blank' href={"https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac"} className="text-gray-300 hover:underline">Safari</Link></li>
+                <li><Link target='_blank' href={"https://support.microsoft.com/en-gb/help/4027947/windows-delete-cookies"} className="text-gray-300 hover:underline">Edge</Link></li>
               </ul>
             </section>
 
-            <section className="mb-8">
+            <section className="mb-8 bg-gray-900 p-5 sm:p-8 rounded-lg">
               <h2 className="text-2xl font-semibold mb-4">6. More Information</h2>
               <p className="text-gray-300">
                 If you are looking for more information, you can contact us through one of our preferred contact methods:
@@ -102,7 +101,6 @@ const CookiePolicy = () => {
           </div>
         </motion.div>
       </main>
-
     </div>
   )
 }

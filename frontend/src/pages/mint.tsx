@@ -10,7 +10,7 @@ export default function MintPage() {
 
   if (!cid) {
     return (
-      <div className="mt-36 bg-black text-white">
+      <div className="mt-36 text-white">
         {/* <div className="fixed inset-0 overflow-hidden z-0 opacity-10">
           <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:60px_60px]"></div>
         </div> */}
