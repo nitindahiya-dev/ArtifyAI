@@ -17,13 +17,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <meta name="description" content="AI-powered Art Authentication Platform" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
-        <Lightning
-        hue={220}
-        xOffset={0}
-        speed={1}
-        intensity={1}
-        size={1}
-      />      
+            <Lightning
+                hue={260}
+                xOffset={0}
+                speed={0.6}
+                intensity={0.8}
+                size={1}
+            />
             <Header />
             <main className="max-w-7xl mx-auto p-4">{children}</main>
             <Footer />
