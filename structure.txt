@@ -112,11 +112,7 @@ artifyai/
 │   │       ├── config.yaml
 │   │       └── run.ipynb
 │   ├── src/
-│   │   ├── train.py
-│   │   ├── evaluate.py
-│   │   ├── dataset.py
-│   │   ├── model.py
-│   │   └── utils.py
+│   │   ├── infer.py
 │   ├── models/
 │   │   └── checkpoint.pt
 │   └── requirements.txt
