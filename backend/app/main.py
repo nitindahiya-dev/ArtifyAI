@@ -1,38 +1,31 @@
-# backend/app/main.py
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import settings
-from app.api.v1.endpoints import infer as infer_router_module
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from app.ml import loader as ml_loader
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+from PIL import Image
+import io
+from ml.src.infer import ArtAuthenticityModel, load_model
 
-app = FastAPI(title="ArtifyAi Backend")
+app = FastAPI()
 
-# CORS for frontend dev
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # restrict in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Load model at startup
+model = load_model()
 
+@app.post("/predict")
+async def predict(file: UploadFile = File(...)):
+    image = Image.open(io.BytesIO(await file.read()))
+    result = model.predict(image)
+    return JSONResponse(content=result)
 
-@app.on_event("startup")
-async def startup_event():
-    # Attempt to warm up / load the ML model (if available)
-    try:
-        ml_loader.init_model()
-        print("ML model loader finished.")
-    except Exception as e:
-        # keep running — inference service will fall back to mock if necessary
-        print("ML model not loaded:", e)
-
-
-# include endpoints
-app.include_router(infer_router_module.router, prefix="/infer", tags=["infer"])
-
-# health check
-@app.get("/health")
-def health():
-    return {"status": "ok", "env": settings.ENV}
+@app.post("/upload")
+async def upload_image(file: UploadFile = File(...)):
+    image = Image.open(io.BytesIO(await file.read()))
+    result = model.predict(image)
+    report = {
+        "prediction": result["prediction"],
+        "confidence": result["confidence"],
+        "similar_works": ["Reference Authentic Image 1", "Reference Authentic Image 2"]  # Placeholder
+    }
+    return JSONResponse(content=report)
