@@ -1,59 +1,63 @@
-// frontend/src/components/MintForm.tsx
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import { connectMetaMask, getContract } from "../lib/ethers";
-import type { AIReport } from "../types";
 import { motion } from "framer-motion";
 
 type Props = {
   cid: string;
-  report: AIReport;
+  prediction: string;
   onMintSuccess?: (txHash: string, tokenId?: string) => void;
 };
 
-export default function MintForm({ cid, report, onMintSuccess }: Props) {
+export default function MintForm({ cid, prediction, onMintSuccess }: Props) {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleMint() {
-    if (!cid) return alert("CID missing");
-    if (!report) return alert("Report missing");
-    
+    if (!cid) {
+      setError("CID missing");
+      return;
+    }
+    if (prediction !== "authentic") {
+      setError("Only authentic artworks can be minted");
+      return;
+    }
+
     try {
       setLoading(true);
       setStep(1);
-      
+      setError(null);
+
       const { provider } = await connectMetaMask();
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
       const contract = getContract(signer);
-      
+
       setStep(2);
-      
-      const sig = report.signature ?? "0x";
-      const score = Math.max(0, Math.min(255, Math.round(report.score)));
-      
-      setStep(3);
-      
-      const tx = await contract.mintWithReport(await signer.getAddress(), cid, score, sig, {
-        value: ethers.utils.parseEther("0"),
+
+      // Call mint function with only cid (per ABI)
+      const tx = await contract.mint(cid, {
+        value: ethers.parseEther("0"),
       });
-      
-      setStep(4);
+
+      setStep(3);
       const receipt = await tx.wait();
-      
-      setStep(5);
+
+      setStep(4);
       let tokenId: string | undefined;
       try {
-        const mintedEvent = receipt.events?.find((e: any) => e.event === "Transfer" && e.args && e.args[1]);
+        // Parse Transfer event to get tokenId
+        const mintedEvent = receipt.logs.find((e: any) => e.event === "Transfer");
         if (mintedEvent) tokenId = mintedEvent.args[2]?.toString();
       } catch {}
-      
+
+      setStep(5);
       onMintSuccess?.(receipt.transactionHash, tokenId);
       alert(`Successfully minted NFT! Transaction: ${receipt.transactionHash}`);
-      
     } catch (err: any) {
-      console.error(err);
-      alert(err?.message || "Mint failed");
+      const errorMsg = err.message || "Minting failed";
+      setError(errorMsg);
+      console.error("Minting error:", err);
     } finally {
       setLoading(false);
       setStep(0);
@@ -64,9 +68,8 @@ export default function MintForm({ cid, report, onMintSuccess }: Props) {
     "Ready to mint",
     "Connecting wallet",
     "Preparing transaction",
-    "Signing request",
     "Processing transaction",
-    "Success! NFT created"
+    "Success! NFT created",
   ];
 
   return (
@@ -87,9 +90,11 @@ export default function MintForm({ cid, report, onMintSuccess }: Props) {
           </div>
           
           <button 
-            className="btn bg-white text-black hover:bg-gray-100 border border-gray-800 w-full md:w-auto py-3 px-8"
+            className={`btn bg-white text-black hover:bg-gray-100 border border-gray-800 w-full md:w-auto py-3 px-8 ${
+              prediction !== "authentic" || loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={handleMint}
-            disabled={loading}
+            disabled={loading || prediction !== "authentic"}
           >
             {loading ? "Processing..." : "Mint NFT"}
           </button>
@@ -99,18 +104,21 @@ export default function MintForm({ cid, report, onMintSuccess }: Props) {
           <div className="mt-6">
             <div className="flex justify-between text-sm text-gray-400 mb-2">
               <span>Progress</span>
-              <span>Step {step} of 5</span>
+              <span>Step {step} of {steps.length - 1}</span>
             </div>
             <div className="w-full bg-gray-800 rounded-full h-2.5">
               <div 
                 className="bg-white h-2.5 rounded-full" 
-                style={{ width: `${(step / 5) * 100}%` }}
+                style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
               ></div>
             </div>
             <p className="mt-2 text-center text-gray-400">
               {steps[step]}
             </p>
           </div>
+        )}
+        {error && (
+          <p className="mt-2 text-red-500 text-center">{error}</p>
         )}
       </div>
       

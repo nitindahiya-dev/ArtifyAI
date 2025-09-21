@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 
 type Report = {
   prediction: string;
-  score: number;
+  confidence: number; // Backend returns 'confidence' (0-1), not 'score'
   signature?: string;
   cid: string;
   similar_works: { path: string; similarity: number }[];
 };
 
 type Props = {
-  report: Report;
+  report?: Report; // Make report optional to handle undefined
 };
 
 export default function ReportView({ report }: Props) {
@@ -22,9 +22,27 @@ export default function ReportView({ report }: Props) {
   };
 
   const openIpfs = () => {
+    if (!report?.cid) return;
     const base = process.env.NEXT_PUBLIC_IPFS_GATEWAY || "https://ipfs.io/ipfs/";
     window.open(`${base.replace(/\/$/, "")}/${report.cid}`, "_blank");
   };
+
+  // If no report, show a placeholder
+  if (!report) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gray-900 rounded-2xl p-8 border border-gray-800 shadow-2xl text-center"
+      >
+        <h3 className="text-2xl font-bold mb-6 text-gray-300">No Report Available</h3>
+        <p className="text-gray-400">Upload an image to generate an authenticity report.</p>
+      </motion.div>
+    );
+  }
+
+  // Convert confidence (0-1) to score (0-100)
+  const score = report.confidence * 100;
 
   return (
     <motion.div
@@ -42,15 +60,15 @@ export default function ReportView({ report }: Props) {
           <h4 className="text-lg font-semibold mb-3">Authenticity Confidence</h4>
           <div className="flex justify-between items-start mb-4">
             <div>
-              <div className="text-2xl font-bold">{report.score}/100</div>
-              <p className="text-gray-400">{getConfidenceLevel(report.score)} Confidence</p>
+              <div className="text-2xl font-bold">{score.toFixed(2)}/100</div>
+              <p className="text-gray-400">{getConfidenceLevel(score)} Confidence</p>
             </div>
             <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center border border-gray-800">
-              <span className="text-lg font-bold">{report.score}</span>
+              <span className="text-lg font-bold">{Math.round(score)}</span>
             </div>
           </div>
           <div className="w-full bg-gray-700 rounded-full h-2.5 mb-2">
-            <div className="bg-white h-2.5 rounded-full" style={{ width: `${report.score}%` }} />
+            <div className="bg-white h-2.5 rounded-full" style={{ width: `${score}%` }} />
           </div>
           <div className="flex justify-between text-sm text-gray-400">
             <span>0%</span>
@@ -105,7 +123,7 @@ export default function ReportView({ report }: Props) {
           <ul className="space-y-2">
             {report.similar_works.map((work, index) => (
               <li key={index} className="text-gray-300">
-                {work.path} (Similarity: {(work.similarity * 100).toFixed(2)}%)
+                {work.path.split('/').pop()} (Similarity: {(work.similarity * 100).toFixed(2)}%)
               </li>
             ))}
           </ul>

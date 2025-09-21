@@ -3,15 +3,18 @@ import { useRouter } from "next/router";
 import UploadCard from "../components/UploadCard";
 import ReportView from "../components/ReportView";
 import MintForm from "../components/MintForm";
+// import WalletConnectButton from "../components/WalletConnectButton";
 import { motion } from "framer-motion";
 
 export default function MintPage() {
   const router = useRouter();
   const [report, setReport] = useState<{ score: number; signature?: string; cid: string; prediction: string; similar_works: { path: string; similarity: number }[] } | null>(null);
+  const [walletAddress, ] = useState<string | null>(null);
 
   const handleUpload = (file: File, response: any) => {
     const score = Math.round(response.confidence * 100);
     const signature = response.prediction === "authentic" ? "0xMockSignature" : undefined;
+    console.log("Report set:", { score, signature, cid: response.cid, prediction: response.prediction, similar_works: response.similar_works });
     setReport({
       score,
       signature,
@@ -21,31 +24,25 @@ export default function MintPage() {
     });
   };
 
-  if (!report) {
-    return (
-      <div className="min-h-screen bg-black text-white">
-        <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Authenticate Your Artwork</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Upload your artwork to verify its authenticity before minting as an NFT
-            </p>
-          </motion.div>
-          <UploadCard onSelect={handleUpload} />
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Mint Your Authenticated Artwork</h2>
+    <div className="relative md:mt-40 z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
+      <div className="flex justify-center items-center mb-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            {report ? "Mint Your Authenticated Artwork" : "Authenticate Your Artwork"}
+          </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Finalize your NFT creation with blockchain verification of your artwork's authenticity
+            {report
+              ? "Finalize your NFT creation with blockchain verification of your artwork's authenticity"
+              : "Upload your artwork to verify its authenticity before minting as an NFT"}
           </p>
         </motion.div>
+        {/* <WalletConnectButton onConnect={(address) => setWalletAddress(address)} /> */}
+      </div>
+
+      {!report ? (
+        <UploadCard onSelect={handleUpload} disabled={!walletAddress} />
+      ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <ReportView report={report} />
@@ -54,7 +51,7 @@ export default function MintPage() {
             <h3 className="text-2xl font-bold mb-6">Mint NFT</h3>
             <MintForm
               cid={report.cid}
-              report={report}
+              prediction={report.prediction}
               onMintSuccess={(tx) => {
                 alert(`Successfully minted NFT! Transaction: ${tx}`);
                 router.push("/");
@@ -118,14 +115,7 @@ export default function MintPage() {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
-
-const getConfidenceLevel = (score: number) => {
-  if (score >= 90) return "Exceptional";
-  if (score >= 75) return "High";
-  if (score >= 50) return "Moderate";
-  return "Low";
-};

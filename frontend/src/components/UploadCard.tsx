@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import axios from "axios";
+import { uploadToServer } from "../lib/ipfs";
 
 type Props = {
-  onSelect: (file: File, response: any) => void; // Updated to pass response
+  onSelect: (
+    file: File,
+    report: { prediction: string; score: number; cid: string; similar_works: { path: string; similarity: number }[] }
+  ) => void;
   disabled?: boolean;
 };
 
@@ -15,24 +18,42 @@ export default function UploadCard({ onSelect, disabled }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function processFile(f: File) {
+    console.log("Processing file:", f.name, "Size:", f.size, "Type:", f.type);
     setPreview(URL.createObjectURL(f));
-    const formData = new FormData();
-    formData.append("file", f);
+    setError(null);
+
     try {
-      const response = await axios.post("http://localhost:8000/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      console.log("Calling uploadToServer...");
+      const response = await uploadToServer(f);
+      if (!response) {
+        throw new Error("No response from server");
+      }
+      console.log("Upload response:", JSON.stringify(response, null, 2));
+
+      // Map backend response to ReportView format
+      const report = {
+        prediction: response.prediction,
+        score: response.confidence * 100, // Convert to percentage
+        cid: response.cid,
+        similar_works: response.similar_works,
+      };
+
       setError(null);
-      onSelect(f, response.data); // Pass file and response
+      console.log("Calling onSelect with report:", JSON.stringify(report, null, 2));
+      onSelect(f, report); // Pass file and formatted report
     } catch (err) {
-      setError("Failed to upload image");
-      console.error(err);
+      const errorMsg = err instanceof Error ? err.message : "Failed to upload image";
+      setError(errorMsg);
+      console.error("Upload error:", errorMsg);
     }
   }
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
-    if (!f) return;
+    if (!f) {
+      console.log("No file selected");
+      return;
+    }
     processFile(f);
   }
 
@@ -51,6 +72,8 @@ export default function UploadCard({ onSelect, disabled }: Props) {
     const f = e.dataTransfer.files?.[0];
     if (f && f.type.startsWith("image/")) {
       processFile(f);
+    } else {
+      setError("Please drop an image file (JPG, PNG, WebP)");
     }
   }
 
@@ -87,6 +110,7 @@ export default function UploadCard({ onSelect, disabled }: Props) {
               onClick={() => {
                 setPreview(null);
                 if (fileInputRef.current) fileInputRef.current.value = "";
+                setError(null);
               }}
             >
               Choose Different Artwork
@@ -106,8 +130,19 @@ export default function UploadCard({ onSelect, disabled }: Props) {
           >
             <div className="flex flex-col items-center justify-center">
               <div className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center mb-6 border border-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">{isDragging ? "Drop your artwork here" : "Click or drag to upload"}</h3>
@@ -116,7 +151,7 @@ export default function UploadCard({ onSelect, disabled }: Props) {
           </div>
         </motion.div>
       )}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
     </div>
   );
 }
