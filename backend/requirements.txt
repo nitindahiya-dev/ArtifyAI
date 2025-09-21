@@ -6,3 +6,4 @@ transformers==4.56.1
 numpy==2.3.3
 scikit-learn==1.7.2
 pillow==11.3.0
+ipfshttpclient==0.8.0a2

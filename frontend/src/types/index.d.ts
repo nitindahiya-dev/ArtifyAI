@@ -10,3 +10,11 @@ export interface InferenceResult {
   cid: string;
   report: AIReport;
 }
+
+export interface AIReport {
+  score: number;
+  signature?: string;
+  cid: string;
+  prediction: string;
+  similar_works: { path: string; similarity: number }[];
+}

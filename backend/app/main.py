@@ -1,14 +1,38 @@
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from fastapi import FastAPI, File, UploadFile
+import subprocess
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import io
+
+# Fix import path: Add backend root to sys.path
+backend_root = os.path.dirname(__file__)  # /projects/ArtifyAI/backend/app
+sys.path.insert(0, os.path.dirname(backend_root))  # Add /projects/ArtifyAI/backend
+
+# Now import ML and DB modules
 from ml.src.infer import ArtAuthenticityModel, load_model
+from db.models import Base, Prediction
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+# Database setup
+DATABASE_URL = "postgresql://artifyai_user:secure_password@localhost/artifyai"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load model at startup
 model = load_model()
@@ -21,11 +45,28 @@ async def predict(file: UploadFile = File(...)):
 
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
-    image = Image.open(io.BytesIO(await file.read()))
+    image_data = await file.read()
+    image = Image.open(io.BytesIO(image_data))
     result = model.predict(image)
-    report = {
-        "prediction": result["prediction"],
-        "confidence": result["confidence"],
-        "similar_works": ["Reference Authentic Image 1", "Reference Authentic Image 2"]  # Placeholder
-    }
-    return JSONResponse(content=report)
+    # Upload to IPFS using subprocess
+    try:
+        cid = subprocess.check_output(['ipfs', 'add', '-Q'], input=image_data, stderr=subprocess.STDOUT).decode().strip()
+    except subprocess.CalledProcessError as e:
+        raise HTTPException(status_code=500, detail=f"IPFS upload failed: {e.output.decode()}")
+    except FileNotFoundError:
+        raise HTTPException(status_code=500, detail="IPFS binary not found. Ensure 'ipfs' is installed and in PATH.")
+    # Save to database
+    db = SessionLocal()
+    try:
+        db_prediction = Prediction(
+            cid=cid,
+            prediction=result["prediction"],
+            confidence=result["confidence"]
+        )
+        db.add(db_prediction)
+        db.commit()
+        db.refresh(db_prediction)
+    finally:
+        db.close()
+    result["cid"] = cid
+    return JSONResponse(content=result)
