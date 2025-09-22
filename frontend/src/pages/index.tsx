@@ -1,41 +1,46 @@
-// frontend/src/pages/index.tsx
 import React, { useState } from "react";
 import UploadCard from "../components/UploadCard";
 import ReportView from "../components/ReportView";
 import MintForm from "../components/MintForm";
-import type { AIReport, InferenceResult } from "../types";
 import { motion } from "framer-motion";
 import { NftIcon, ScanIcon, ShieldIcon } from "@/svg/svgs";
 import FeatureCard from "@/components/FeatureCard";
+import { useRouter } from "next/router";
 
 export default function HomePage() {
   const [file, setFile] = useState<File | null>(null);
   const [cid, setCid] = useState<string | null>(null);
-  const [report, setReport] = useState<AIReport | null>(null);
+  const [report, setReport] = useState<{ prediction: string; confidence: number; cid: string; similar_works: { path: string; similarity: number }[] } | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleFileSelect(f: File) {
     setFile(f);
     setCid(null);
     setReport(null);
-    
+
     try {
       setLoading(true);
       const base = process.env.NEXT_PUBLIC_API_BASE || "";
-      const url = `${base.replace(/\/$/, "")}/infer`;
+      const url = `${base.replace(/\/$/, "")}/upload`; // Changed from /infer to /upload
       const fd = new FormData();
       fd.append("file", f, f.name);
       const resp = await fetch(url, { method: "POST", body: fd });
-      const json = (await resp.json()) as InferenceResult;
-      setCid(json.cid);
-      setReport(json.report);
-    } catch (err: unknown) {
-      console.error(err);
-      if (err instanceof Error) {
-        alert(err.message);
-      } else {
-        alert("Analysis failed");
+      if (!resp.ok) {
+        throw new Error(`Server error: ${resp.status}`);
       }
+      const json = await resp.json();
+      console.log("Upload response:", JSON.stringify(json, null, 2));
+      setCid(json.cid);
+      setReport({
+        prediction: json.prediction,
+        confidence: json.confidence,
+        cid: json.cid,
+        similar_works: json.similar_works,
+      });
+    } catch (err: unknown) {
+      console.error("Upload error:", err);
+      alert(err instanceof Error ? err.message : "Analysis failed");
     } finally {
       setLoading(false);
     }
@@ -44,7 +49,7 @@ export default function HomePage() {
   return (
     <div className="text-white mt-36">
       <div className="relative z-10 md:container mx-auto md:px-4 md:py-12 max-w-4xl">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
@@ -53,7 +58,7 @@ export default function HomePage() {
             Transform Art into Verifiable NFTs
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Upload your artwork, get an AI authenticity report, and mint it as a 
+            Upload your artwork, get an AI authenticity report, and mint it as a
             blockchain-verified NFT with built-in provenance tracking.
           </p>
         </motion.div>
@@ -64,47 +69,48 @@ export default function HomePage() {
             title="AI Analysis"
             description="Our advanced algorithms examine style, technique, and provenance markers"
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<ShieldIcon />}
             title="Provenance Tracking"
             description="Immutable record of authenticity stored on the blockchain"
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<NftIcon />}
             title="NFT Minting"
             description="Create verifiable digital collectibles with embedded authenticity data"
           />
         </div>
 
-        <div className="bg-gray-900 rounded-2xl p-4  md:p-8 border border-gray-800 shadow-2xl">
+        <div className="bg-gray-900 rounded-2xl p-4 md:p-8 border border-gray-800 shadow-2xl">
           <UploadCard onSelect={handleFileSelect} disabled={loading} />
 
           {loading && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="mt-8 flex flex-col items-center py-12"
             >
               <div className="w-16 h-16 border-t-2 border-white rounded-full animate-spin mb-6"></div>
               <h3 className="text-xl font-semibold mb-2">Analyzing Artwork</h3>
-              <p className="text-gray-400">Our AI is examining your {`artwork's`} unique characteristics...</p>
+              <p className="text-gray-400">Our AI is examining your artwork's unique characteristics...</p>
             </motion.div>
           )}
 
-          <ReportView cid={cid ?? undefined} report={report ?? undefined} />
-
-          {cid && report && (
-            <MintForm
-              cid={cid}
-              report={report}
-              onMintSuccess={(tx) => {
-                console.log("mint success", tx);
-              }}
-            />
+          {report && cid && (
+            <>
+              <ReportView report={report} />
+              <MintForm
+                cid={cid}
+                prediction={report.prediction}
+                onMintSuccess={(tx) => {
+                  console.log("Mint success:", tx);
+                  router.push("/mint"); // Redirect to mint page after upload
+                }}
+              />
+            </>
           )}
         </div>
       </div>
     </div>
   );
 }
-

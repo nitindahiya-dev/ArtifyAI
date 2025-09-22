@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 
 type Report = {
   prediction: string;
-  confidence: number; // Backend returns 'confidence' (0-1), not 'score'
+  confidence: number; // Backend returns 'confidence' (0-1)
   signature?: string;
   cid: string;
   similar_works: { path: string; similarity: number }[];
 };
 
 type Props = {
-  report?: Report; // Make report optional to handle undefined
+  report?: Report; // Optional to handle undefined
 };
 
 export default function ReportView({ report }: Props) {
@@ -28,7 +28,7 @@ export default function ReportView({ report }: Props) {
   };
 
   // If no report, show a placeholder
-  if (!report) {
+  if (!report || !report.confidence) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ export default function ReportView({ report }: Props) {
   }
 
   // Convert confidence (0-1) to score (0-100)
-  const score = report.confidence * 100;
+  const score = Number.isFinite(report.confidence) ? report.confidence * 100 : 0;
 
   return (
     <motion.div

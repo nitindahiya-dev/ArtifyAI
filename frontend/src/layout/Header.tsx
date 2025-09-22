@@ -60,14 +60,34 @@ const Header = () => {
                 Home
               </Link>
               <Link 
-                href="/mint" 
+                href="/how-it-works" 
                 className={`py-2 px-4 rounded-xl transition-all duration-300 ${
-                  isActive('/mint') 
+                  isActive('/how-it-works') 
                     ? 'bg-white text-black font-medium shadow-lg' 
                     : 'text-gray-300 hover:text-white hover:bg-gray-900'
                 }`}
               >
-                Mint
+                How it works
+              </Link>
+              <Link 
+                href="/dashboard" 
+                className={`py-2 px-4 rounded-xl transition-all duration-300 ${
+                  isActive('/dashboard') 
+                    ? 'bg-white text-black font-medium shadow-lg' 
+                    : 'text-gray-300 hover:text-white hover:bg-gray-900'
+                }`}
+              >
+                Dashboard
+              </Link>
+              <Link 
+                href="/contact-us" 
+                className={`py-2 px-4 rounded-xl transition-all duration-300 ${
+                  isActive('/contact-us') 
+                    ? 'bg-white text-black font-medium shadow-lg' 
+                    : 'text-gray-300 hover:text-white hover:bg-gray-900'
+                }`}
+              >
+                Contact us
               </Link>
             </nav>
 
@@ -148,15 +168,37 @@ const Header = () => {
                     <span className="text-lg">Home</span>
                   </Link>
                   <Link 
-                    href="/mint" 
+                    href="/how-it-works" 
                     className={`flex items-center py-4 px-6 rounded-xl transition-all ${
-                      isActive('/mint') 
+                      isActive('/how-it-works') 
                         ? 'bg-white text-black font-medium shadow-lg' 
                         : 'text-gray-300 hover:text-white hover:bg-gray-900'
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <span className="text-lg">Mint</span>
+                    <span className="text-lg">How it works</span>
+                  </Link>
+                  <Link 
+                    href="/dashboard" 
+                    className={`flex items-center py-4 px-6 rounded-xl transition-all ${
+                      isActive('/dashboard') 
+                        ? 'bg-white text-black font-medium shadow-lg' 
+                        : 'text-gray-300 hover:text-white hover:bg-gray-900'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="text-lg">Dashboard</span>
+                  </Link>
+                  <Link 
+                    href="/contact-us" 
+                    className={`flex items-center py-4 px-6 rounded-xl transition-all ${
+                      isActive('/contact-us') 
+                        ? 'bg-white text-black font-medium shadow-lg' 
+                        : 'text-gray-300 hover:text-white hover:bg-gray-900'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="text-lg">Contact us</span>
                   </Link>
                 </nav>
 

@@ -6,7 +6,7 @@ import { uploadToServer } from "../lib/ipfs";
 type Props = {
   onSelect: (
     file: File,
-    report: { prediction: string; score: number; cid: string; similar_works: { path: string; similarity: number }[] }
+    report: { prediction: string; confidence: number; cid: string; similar_works: { path: string; similarity: number }[] }
   ) => void;
   disabled?: boolean;
 };
@@ -30,17 +30,17 @@ export default function UploadCard({ onSelect, disabled }: Props) {
       }
       console.log("Upload response:", JSON.stringify(response, null, 2));
 
-      // Map backend response to ReportView format
+      // Map backend response to expected format
       const report = {
         prediction: response.prediction,
-        score: response.confidence * 100, // Convert to percentage
+        confidence: response.confidence, // Use confidence directly
         cid: response.cid,
         similar_works: response.similar_works,
       };
 
       setError(null);
       console.log("Calling onSelect with report:", JSON.stringify(report, null, 2));
-      onSelect(f, report); // Pass file and formatted report
+      onSelect(f, report);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : "Failed to upload image";
       setError(errorMsg);
@@ -52,6 +52,10 @@ export default function UploadCard({ onSelect, disabled }: Props) {
     const f = e.target.files?.[0];
     if (!f) {
       console.log("No file selected");
+      return;
+    }
+    if (!f.type.startsWith("image/")) {
+      setError("Please select an image file (JPG, PNG, WebP)");
       return;
     }
     processFile(f);
@@ -74,6 +78,12 @@ export default function UploadCard({ onSelect, disabled }: Props) {
       processFile(f);
     } else {
       setError("Please drop an image file (JPG, PNG, WebP)");
+    }
+  }
+
+  function handleClick() {
+    if (!disabled && fileInputRef.current) {
+      fileInputRef.current.click();
     }
   }
 
@@ -118,15 +128,15 @@ export default function UploadCard({ onSelect, disabled }: Props) {
           </div>
         </motion.div>
       ) : (
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <motion.div whileHover={{ scale: disabled ? 1 : 1.02 }} whileTap={{ scale: disabled ? 1 : 0.98 }}>
           <div
-            className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all ${
-              isDragging ? "border-white bg-gray-900" : "border-gray-700 hover:border-gray-600"
+            className={`border-2 border-dashed rounded-2xl p-12 text-center transition-all ${
+              disabled ? "border-gray-700 opacity-50 cursor-not-allowed" : isDragging ? "border-white bg-gray-900" : "border-gray-700 hover:border-gray-600 cursor-pointer"
             }`}
-            onClick={() => fileInputRef.current?.click()}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
+            onClick={handleClick}
+            onDragOver={disabled ? undefined : handleDragOver}
+            onDragLeave={disabled ? undefined : handleDragLeave}
+            onDrop={disabled ? undefined : handleDrop}
           >
             <div className="flex flex-col items-center justify-center">
               <div className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center mb-6 border border-gray-800">
