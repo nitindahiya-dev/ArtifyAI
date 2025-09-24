@@ -7,7 +7,6 @@ export default function Custom404() {
   return (
     <div className="mt-20 text-white overflow-hidden">
       {/* Animated Background */}
-      <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:60px_60px]"></div>
         <motion.div 
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"
@@ -34,7 +33,6 @@ export default function Custom404() {
             delay: 1
           }}
         />
-      </div>
 
 
       

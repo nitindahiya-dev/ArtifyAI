@@ -7,7 +7,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-gray-800 md:mt-16">
+    <footer className="border-t border-gray-800 md:mt-16 z-[500000000]">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Section */}
@@ -64,7 +64,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href={"#!"} className="text-gray-400 hover:text-white transition-colors">Marketplace</Link>
+                <Link href={"/marketplace"} className="text-gray-400 hover:text-white transition-colors">Marketplace</Link>
               </li>
             </ul>
           </motion.div>
@@ -78,16 +78,16 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Resources</h4>
             <ul className="space-y-3">
               <li>
-                <Link href={"#!"} className="text-gray-400 hover:text-white transition-colors">Documentation</Link>
+                <Link href={"/documentation"} className="text-gray-400 hover:text-white transition-colors">Documentation</Link>
               </li>
               <li>
-                <Link href={"#!"} className="text-gray-400 hover:text-white transition-colors">Tutorials</Link>
+                <Link href={"/tutorials"} className="text-gray-400 hover:text-white transition-colors">Tutorials</Link>
               </li>
               <li>
-                <Link href={"#!"} className="text-gray-400 hover:text-white transition-colors">API</Link>
+                <Link href={"/api-docs"} className="text-gray-400 hover:text-white transition-colors">API</Link>
               </li>
               <li>
-                <Link href={"#!"} className="text-gray-400 hover:text-white transition-colors">Help Center</Link>
+                <Link href={"/contact-us"} className="text-gray-400 hover:text-white transition-colors">Help Center</Link>
               </li>
             </ul>
           </motion.div>
