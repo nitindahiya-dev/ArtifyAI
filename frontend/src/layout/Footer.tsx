@@ -59,8 +59,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href={"/mint"}>
-                  <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Mint NFT</span>
+                <Link href={"/how-it-works"}>
+                  <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">How it works</span>
                 </Link>
               </li>
               <li>

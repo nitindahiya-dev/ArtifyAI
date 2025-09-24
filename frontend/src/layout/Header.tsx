@@ -92,9 +92,9 @@ const Header = () => {
             </nav>
 
             {/* Wallet Connection */}
-            <div className="hidden md:block">
+            {/* <div className="hidden md:block">
               <WalletConnectButton />
-            </div>
+            </div> */}
 
             {/* Mobile Menu Button */}
             <button 
@@ -203,9 +203,9 @@ const Header = () => {
                 </nav>
 
                 {/* Wallet Connection in Mobile Menu */}
-                <div className="mt-10 pt-6 border-t border-gray-800">
+                {/* <div className="mt-10 pt-6 border-t border-gray-800">
                   <WalletConnectButton />
-                </div>
+                </div> */}
 
                 {/* Additional info in mobile menu */}
                 <div className="mt-8 text-gray-400 text-sm">
