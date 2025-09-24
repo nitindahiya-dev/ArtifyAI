@@ -1,3 +1,4 @@
+# /projects/ArtifyAI/backend/app/main.py
 import sys
 import os
 import subprocess
@@ -7,9 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import io
 
-# Fix import path: Add backend root to sys.path
-backend_root = os.path.dirname(__file__)  # /projects/ArtifyAI/backend/app
-sys.path.insert(0, os.path.dirname(backend_root))  # Add /projects/ArtifyAI/backend
+# Fix import path: Add project root to sys.path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))  # /projects/ArtifyAI
+sys.path.insert(0, project_root)
 
 # Now import ML and DB modules
 from ml.src.infer import ArtAuthenticityModel, load_model
@@ -28,7 +29,7 @@ app = FastAPI()
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "http://192.168.1.186:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

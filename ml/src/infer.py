@@ -3,6 +3,7 @@ import torch
 from PIL import Image
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import os
 
 class ArtAuthenticityModel:
     def __init__(self, ref_image_paths):
@@ -36,5 +37,17 @@ class ArtAuthenticityModel:
         }
 
 def load_model():
-    ref_paths = ['ml/data/processed/authentic_images/authentic_0.jpg', 'ml/data/processed/authentic_images/authentic_4.jpg']
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    ref_paths = [
+        os.path.join(base_dir, "ml/data/processed/authentic_images/authentic_0.jpg"),
+        os.path.join(base_dir, "ml/data/processed/authentic_images/authentic_4.jpg")
+    ]
+
+    # Check if the reference image paths exist
+    for path in ref_paths:
+        if not os.path.exists(path):
+            print(f"File not found: {path}")
+        else:
+            print(f"File exists: {path}")
+
     return ArtAuthenticityModel(ref_paths)

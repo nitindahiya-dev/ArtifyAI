@@ -128,3 +128,8 @@ artifyai/
     │   └── e2e_test_flow.js
     └── integration/
         └── contract_integration.test.js
+
+
+
+// make pages dynamic and responsive
+// look into footer links
