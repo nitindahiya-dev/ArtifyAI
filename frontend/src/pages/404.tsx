@@ -138,7 +138,7 @@ export default function Custom404() {
               {[
                 { href: "/", label: "Home", icon: "🏠" },
                 { href: "/dashboard", label: "Dashboard", icon: "📊" },
-                { href: "/contact", label: "Contact", icon: "📞" }
+                { href: "/contact-us", label: "Contact", icon: "📞" }
               ].map((link, index) => (
                 <motion.div
                   key={link.href}
