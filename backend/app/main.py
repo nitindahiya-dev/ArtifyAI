@@ -19,7 +19,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # Database setup
-DATABASE_URL = "postgresql://artifyai_user:secure_password@localhost/artifyai"
+DATABASE_URL = "postgresql://artifyai_user:artpass@localhost:5432/artifyai"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base.metadata.create_all(bind=engine)

@@ -1,20 +1,23 @@
-// scripts/deploy.js
 const hre = require("hardhat");
+require("dotenv").config();
 
 async function main() {
-  const TrustedSigner = process.env.TRUSTED_SIGNER || "0x0000000000000000000000000000000000000000";
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying contracts with account:", deployer.address);
 
-  const Art = await hre.ethers.getContractFactory("ArtAuthenticator");
-  console.log("Deploying ArtAuthenticator...");
-  const art = await Art.deploy(TrustedSigner);
-  await art.deployed();
-  console.log("ArtAuthenticator deployed to:", art.address);
-  console.log("Trusted signer:", TrustedSigner);
+  const trustedSigner = process.env.TRUSTED_SIGNER;
+  if (!trustedSigner) {
+    throw new Error("TRUSTED_SIGNER not set in .env");
+  }
+
+  const ArtAuthenticator = await hre.ethers.getContractFactory("ArtAuthenticator");
+  const artAuthenticator = await ArtAuthenticator.deploy(trustedSigner);
+
+  await artAuthenticator.waitForDeployment();
+  console.log("ArtAuthenticator deployed to:", artAuthenticator.target);
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
